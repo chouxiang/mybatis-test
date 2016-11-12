@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzhang.dao.WdDictTypeMapper">
+	<!-- 基本返回值：实体类对象 -->
+	<resultMap id="BaseResultMap" type="com.xzhang.model.WdDictType">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="dict_type_cd" property="dicttypecd" jdbcType="VARCHAR" />
+		<result column="dict_type_name" property="dicttypename" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="create_time" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updatetime" jdbcType="TIMESTAMP" />
+		<result column="cust_code" property="custcode" jdbcType="VARCHAR" />
+		<result column="cust_name" property="custname" jdbcType="VARCHAR" />
+		<collection property="wdDictDatas" column="dict_type_code" ofType="com.xzhang.model.WdDictData">    
+            <id column="id" property="id" jdbcType="VARCHAR" />
+			<result column="dict_cd" property="dictcd" jdbcType="VARCHAR" />
+			<result column="dict_name" property="dictname" jdbcType="VARCHAR" />
+			<result column="dict_order_no" property="dictorderno" jdbcType="VARCHAR" />
+			<result column="remark" property="remark" jdbcType="VARCHAR" />
+			<result column="dict_type_code" property="dicttypecode" jdbcType="VARCHAR" />
+			<result column="create_time" property="createtime" jdbcType="TIMESTAMP" />
+			<result column="update_time" property="updatetime" jdbcType="TIMESTAMP" /> 
+        </collection>
+	</resultMap>
+	
+	<!-- 基础查询语句   -->
+    <sql id="Base_Query">
+        <![CDATA[
+        SELECT wddt.id, wddt.dict_type_cd, wddt.dict_type_name, wddt.remark, wddt.create_time, 
+        wddt.update_time, wddt.cust_code, wddt.cust_name
+        FROM wd_dictdata wddt
+        ]]>
+    </sql>
+    
+    <!--根据主表id找到一对多查询信息-->  
+    <select id="getWdDictTypeById" parameterType="java.lang.String"  resultMap="BaseResultMap" >  
+		<!--分别为主表id与从表id赋值别名,避免因为两个表字段名称相同而注入到对应对象名称冲突-->
+		<![CDATA[ 
+			SELECT * FROM wd_dicttype wddt,wd_dictdata wddd 
+			WHERE wddt.id=wddd.dict_type_code 
+			AND wddt.id = #{id,jdbcType=VARCHAR}
+		]]>      
+    </select>
+    
+    <!--获取所有一对多查询信息-->  
+    <select id="getWdDictTypes" parameterType="java.lang.String"  resultMap="BaseResultMap" >  
+		<!--分别为主表id与从表id赋值别名,避免因为两个表字段名称相同而注入到对应对象名称冲突-->
+		<![CDATA[ 
+			SELECT * FROM wd_dicttype wddt,wd_dictdata wddd 
+			WHERE wddt.id=wddd.dict_type_code 
+			ORDER BY wddt.create_time DESC
+		]]>      
+    </select>
+	
+	<!-- 新增一条WdDictType对象信息 -->
+	<insert id="insertWdDictType" parameterType="com.xzhang.model.WdDictType">
+		<![CDATA[
+		INSERT INTO wd_dicttype 
+		(
+		]]>
+			<if test="id != null and id != ''">id,</if>
+			<if test="dicttypecd != null and dicttypecd != ''">dict_type_cd,</if>
+			<if test="dicttypename != null and dicttypename != ''">dict_type_name,</if>
+			<if test="remark != null and remark != ''">remark,</if>
+			<if test="createtime != null">create_time,</if>
+			<if test="updatetime != null">update_time,</if>
+			<if test="custcode != null and custcode != ''">cust_code,</if>
+			<if test="custname != null and custname != ''">cust_name</if>
+	 	<![CDATA[
+           ) values ( 
+         ]]>
+			<if test="id != null and id != ''">#{id,jdbcType=VARCHAR},</if>
+			<if test="dicttypecd != null and dicttypecd != ''">#{dicttypecd,jdbcType=VARCHAR},</if>
+			<if test="dicttypename != null and dicttypename != ''">#{dicttypename,jdbcType=VARCHAR},</if>
+			<if test="remark != null and remark != ''">#{remark,jdbcType=VARCHAR},</if>
+			<if test="createtime != null">#{createtime,jdbcType=TIMESTAMP},</if>
+			<if test="updatetime != null">#{updatetime,jdbcType=TIMESTAMP},</if>
+			<if test="custcode != null and custcode != ''">#{custcode,jdbcType=VARCHAR},</if>
+			<if test="custname != null and custname != ''">#{custname,jdbcType=VARCHAR}</if>
+		 <![CDATA[
+		   )
+		 ]]>
+	</insert>
+	
+	<!-- 更新WdDictType对象 -->
+	<update id="updateWdDictTypeById" parameterType="com.xzhang.model.WdDictType">
+		<![CDATA[
+			update wd_dicttype
+		]]>
+		<set>
+			<if test="dicttypename != null and dicttypename != ''">
+				dict_type_name = #{dicttypename,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null and remark != ''">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+				update_time = #{updatetime,jdbcType=VARCHAR}
+			</if>
+		</set>
+		<![CDATA[
+			where id = #{id,jdbcType=VARCHAR}
+		]]>
+	</update>
+	
+	
+	
+</mapper>

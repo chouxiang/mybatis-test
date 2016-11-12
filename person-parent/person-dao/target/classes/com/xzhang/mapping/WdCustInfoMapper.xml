@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzhang.dao.WdCustInfoMapper">
+	<!-- 基本返回值：实体类对象 -->
+	<resultMap id="BaseResultMap" type="com.xzhang.model.WdCustInfo">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="buyer_code" property="buyercode" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="create_time" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updatetime" jdbcType="TIMESTAMP" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="img_code" property="imgcode" jdbcType="VARCHAR" />
+		<result column="company_mobile" property="companymobile" jdbcType="VARCHAR" />
+		<result column="company_code" property="companycode" jdbcType="VARCHAR" />
+		<result column="position" property="position" jdbcType="VARCHAR" />
+		<result column="introduct" property="introduct" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 基本sql字段代码块 -->
+	<sql id="Base_Column_List">
+		<![CDATA[
+		id, buyer_code, name, create_time, update_time, address, img_code, 
+		company_mobile, company_code, position, introduct
+		]]>
+	</sql>
+	
+	<!-- 基础查询语句   -->
+    <sql id="Base_Query">
+        <![CDATA[
+        SELECT wdcs.id, wdcs.buyer_code, wdcs.name, wdcs.create_time, wdcs.update_time, 
+        wdcs.address, wdcs.img_code, wdcs.company_mobile, wdcs.company_code, wdcs.position, 
+        wdcs.introduct
+        FROM wd_custinfo wdcs
+        ]]>
+    </sql>
+	
+	<!-- 根据buyercode找到WdCustInfo对象 -->
+	<select id="getWdCustInfoByBuyercode" parameterType="java.lang.String" resultMap="BaseResultMap">
+		<include refid="Base_Query" />
+		<![CDATA[where wdcs.buyer_code = #{buyercode,jdbcType=VARCHAR}]]>
+	</select>
+	
+	<!-- 根据buyercode删除WdCustInfo对象 -->
+	<delete id="delWdCustInfoByBuyercode" parameterType="java.lang.String">
+		<![CDATA[
+		delete from wd_custinfo wdcs 
+		where wdcs.buyer_code = #{buyercode,jdbcType=VARCHAR}
+		]]>
+	</delete>
+	
+	<!-- 新增一条WdCustInfo对象信息 -->
+	<insert id="insertWdCustInfo" parameterType="com.xzhang.model.WdCustInfo">
+		<![CDATA[
+		INSERT INTO wd_custinfo 
+		(
+		]]>
+			<if test="id != null and id != ''">id,</if>
+			<if test="buyercode != null and buyercode != ''">buyer_code,</if>
+			<if test="name != null and name != ''">name,</if>
+			<if test="createtime != null">create_time,</if>
+			<if test="updatetime != null">update_time,</if>
+			<if test="address != null and address != ''">address,</if>
+			<if test="imgcode != null and imgcode != ''">img_code,</if>
+			<if test="companymobile != null and companymobile != ''">company_mobile,</if>
+			<if test="companycode != null and companycode != ''">company_code,</if>
+			<if test="position != null and position != ''">position,</if>
+			<if test="introduct != null and introduct != ''">introduct</if>
+	 	<![CDATA[
+           ) values ( 
+         ]]>
+			<if test="id != null and id != ''">#{id,jdbcType=VARCHAR},</if>
+			<if test="buyercode != null and buyercode != ''">#{buyercode,jdbcType=VARCHAR},</if>
+			<if test="name != null and name != ''">#{name,jdbcType=VARCHAR},</if>
+			<if test="createtime != null">#{createtime,jdbcType=TIMESTAMP},</if>
+			<if test="updatetime != null">#{updatetime,jdbcType=TIMESTAMP},</if>
+			<if test="address != null and address != ''">#{address,jdbcType=VARCHAR},</if>
+			<if test="imgcode != null and imgcode != ''">#{imgcode,jdbcType=VARCHAR},</if>
+			<if test="companymobile != null and companymobile != ''">#{companymobile,jdbcType=VARCHAR},</if>
+			<if test="companycode != null and companycode != ''">#{companycode,jdbcType=VARCHAR},</if>
+			<if test="position != null and position != ''">#{position,jdbcType=VARCHAR},</if>
+			<if test="introduct != null and introduct != ''">#{introduct,jdbcType=VARCHAR}</if>
+		 <![CDATA[
+		   )
+		 ]]>
+	</insert>
+	
+	<!-- 根据buyercode更新WdCustInfo对象 -->
+	<update id="updateWdCustInfoByBuyercode" parameterType="com.xzhang.model.WdCustInfo">
+		<![CDATA[
+			update wd_custinfo
+		]]>
+		<set>
+			<if test="updatetime != null">
+				update_time = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="address != null and address != ''">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="imgcode != null and imgcode != ''">
+				img_code = #{imgcode,jdbcType=VARCHAR},
+			</if>
+			<if test="companymobile != null and companymobile != ''">
+				company_mobile = #{companymobile,jdbcType=VARCHAR},
+			</if>
+			<if test="companycode != null and companycode != ''">
+				company_code = #{companycode,jdbcType=VARCHAR},
+			</if>
+			<if test="position != null and position != ''">
+				position = #{position,jdbcType=VARCHAR},
+			</if>
+			<if test="introduct != null and introduct != ''">
+				introduct = #{introduct,jdbcType=VARCHAR}
+			</if>
+		</set>
+		<![CDATA[
+			where buyer_code = #{buyercode,jdbcType=VARCHAR}
+		]]>
+	</update>
+	
+	
+</mapper>

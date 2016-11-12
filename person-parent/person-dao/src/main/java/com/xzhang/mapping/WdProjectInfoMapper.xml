@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzhang.dao.WdProjectInfoMapper">
+	<!-- 基本返回值：实体类对象 -->
+	<resultMap id="BaseResultMap" type="com.xzhang.model.WdProjectInfo">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="contect" property="contect" jdbcType="VARCHAR" />
+		<result column="first_imgcode" property="firstimgcode" jdbcType="VARCHAR" />
+		<result column="img_codes" property="imgcodes" jdbcType="VARCHAR" />
+		<result column="cust_code" property="custcode" jdbcType="VARCHAR" />
+		<result column="cust_name" property="custname" jdbcType="VARCHAR" />
+		<result column="create_time" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updatetime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 基本sql字段代码块 -->
+	<sql id="Base_Column_List">
+		<![CDATA[
+		id, title, contect, first_imgcode, img_codes, cust_code, cust_name, 
+		create_time, update_time
+		]]>
+	</sql>
+	
+	<!-- 基础查询语句   -->
+    <sql id="Base_Query">
+        <![CDATA[
+        SELECT wdpj.id, wdpj.title, wdpj.contect, wdpj.first_imgcode, wdpj.img_codes, wdpj.cust_code, 
+        wdpj.cust_name, wdpj.create_time, wdpj.update_time
+        FROM wd_projectinfo wdpj 
+        ]]>
+    </sql>
+	
+	<!-- 根据id找到WdProjectInfo对象 -->
+	<select id="getWdProjectInfoById" parameterType="java.lang.String" resultMap="BaseResultMap">
+		<include refid="Base_Query" />
+		<![CDATA[where wdpj.id = #{id,jdbcType=VARCHAR}]]>
+	</select>
+	
+	<!-- 根据id删除WdProjectInfo对象 -->
+	<delete id="delWdProjectInfoById" parameterType="java.lang.String">
+		<![CDATA[
+		delete from wd_projectinfo wdpj
+		where wdpj.id = #{id,jdbcType=VARCHAR}
+		]]>
+	</delete>
+	
+	<!-- 新增一条WdProjectInfo对象信息 -->
+	<insert id="insertWdProjectInfo" parameterType="com.xzhang.model.WdProjectInfo">
+		<![CDATA[
+		INSERT INTO wd_projectinfo 
+		(
+		]]>
+			<if test="id != null and id != ''">id,</if>
+			<if test="title != null and title != ''">title,</if>
+			<if test="contect != null and contect != ''">contect,</if>
+			<if test="firstimgcode != null and firstimgcode != ''">first_imgcode,</if>
+			<if test="imgcodes != null and imgcodes != ''">img_codes,</if>
+			<if test="custcode != null and custcode != ''">cust_code</if>
+			<if test="custname != null and custname != ''">cust_name</if>
+			<if test="createtime != null">create_time,</if>
+			<if test="updatetime != null">update_time,</if>
+	 	<![CDATA[
+           ) values ( 
+         ]]>
+			<if test="id != null and id != ''">#{id,jdbcType=VARCHAR},</if>
+			<if test="title != null and title != ''">#{title,jdbcType=VARCHAR},</if>
+			<if test="contect != null and contect != ''">#{contect,jdbcType=VARCHAR},</if>
+			<if test="firstimgcode != null and firstimgcode != ''">#{firstimgcode,jdbcType=VARCHAR},</if>
+			<if test="imgcodes != null and imgcodes != ''">#{imgcodes,jdbcType=VARCHAR},</if>
+			<if test="custcode != null and custcode != ''">#{custcode,jdbcType=VARCHAR}</if>
+			<if test="custname != null and custname != ''">#{custname,jdbcType=VARCHAR}</if>
+			<if test="createtime != null">#{createtime,jdbcType=TIMESTAMP},</if>
+			<if test="updatetime != null">#{updatetime,jdbcType=TIMESTAMP},</if>
+		 <![CDATA[
+		   )
+		 ]]>
+	</insert>
+	
+	<!-- 更新WdProjectInfo对象 -->
+	<update id="updateWdProjectInfoById" parameterType="com.xzhang.model.WdProjectInfo">
+		<![CDATA[
+			update wd_projectinfo
+		]]>
+		<set>
+			<if test="title != null and title != '' ">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="contect != null and contect != '' ">
+				contect = #{contect,jdbcType=VARCHAR},
+			</if>
+			<if test="firstimgcode != null and firstimgcode != '' ">
+				first_imgcode = #{firstimgcode,jdbcType=VARCHAR}
+			</if>
+			<if test="imgcodes != null and imgcodes != '' ">
+				img_codes = #{imgcodes,jdbcType=VARCHAR}
+			</if>
+			<if test="updatetime != null">
+				update_time = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<![CDATA[
+			where id = #{id,jdbcType=VARCHAR}
+		]]>
+	</update>
+	
+	<!-- 获取指定条数的WdProjectInfo对象列表 -->
+	<select id="getWdProjectInfoList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="Base_Query" />
+		<![CDATA[WHERE 1=1]]>
+		<if test="title != null and title != ''">
+			<![CDATA[and wdpj.title = #{title,jdbcType=VARCHAR}]]>
+		</if>
+		<if test="pageNum != null and pageSize != null">
+			<![CDATA[limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}]]>
+		</if>
+	</select>
+	
+	
+</mapper>

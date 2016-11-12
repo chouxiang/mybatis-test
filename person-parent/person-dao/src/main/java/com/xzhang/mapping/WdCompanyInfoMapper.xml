@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzhang.dao.WdCompanyInfoMapper">
+	<!-- 基本返回值：实体类对象 -->
+	<resultMap id="BaseResultMap" type="com.xzhang.model.WdCompanyInfo">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="company_unique" property="companyunique" jdbcType="VARCHAR" />
+		<result column="cust_code" property="custcode" jdbcType="VARCHAR" />
+		<result column="cust_name" property="custname" jdbcType="VARCHAR" />
+		<result column="create_time" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updatetime" jdbcType="TIMESTAMP" />
+		<result column="company_mobile" property="companymobile" jdbcType="VARCHAR" />
+		<result column="company_adress" property="companyadress" jdbcType="VARCHAR" />
+		<result column="company_email" property="companyemail" jdbcType="VARCHAR" />
+		<result column="com_custcodes" property="comcustcodes" jdbcType="VARCHAR" />
+		<result column="spare_one" property="spareone" jdbcType="VARCHAR" />
+		<result column="spare_two" property="sparetwo" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 基本sql字段代码块 -->
+	<sql id="Base_Column_List">
+		<![CDATA[
+		id, company_unique, cust_code, cust_name, create_time, update_time, company_mobile, company_adress, 
+		company_email, com_custcodes, spare_one, spare_two
+		]]>
+	</sql>
+	
+	<!-- 基础查询语句   -->
+    <sql id="Base_Query">
+        <![CDATA[
+        SELECT wdci.id, wdci.company_unique, wdci.cust_code, wdci.cust_name, wdci.create_time, wdci.update_time, 
+        	wdci.company_mobile, wdci.company_adress, wdci.company_email, wdci.com_custcodes, 
+        	wdci.spare_one, wdci.spare_two
+        	FROM wd_companyinfo wdci
+        ]]>
+    </sql>
+	
+	<!-- 根据公司唯一识别码找到公司信息WdCompanyInfo对象 -->
+	<select id="getWdCompanyByUnique" parameterType="java.lang.String" resultMap="BaseResultMap">
+		<include refid="Base_Query" />
+		<![CDATA[
+			where wdci.company_unique = #{companyunique,jdbcType=VARCHAR}
+		]]>
+	</select>
+	
+	<!-- 新增一条WdCompanyInfo对象信息 -->
+	<insert id="insertWdCompany" parameterType="com.xzhang.model.WdCompanyInfo">
+		<![CDATA[
+		INSERT INTO wd_companyinfo 
+		(
+		]]>
+			<if test="id != null and id != ''">id,</if>
+			<if test="companyunique != null and companyunique != ''">company_unique,</if>
+			<if test="custcode != null and custcode != ''">cust_code,</if>
+			<if test="custname != null and custname != ''">cust_name,</if>
+			<if test="createtime != null">create_time,</if>
+			<if test="updatetime != null">update_time,</if>
+			<if test="companymobile != null and companymobile != ''">company_mobile,</if>
+			<if test="companyadress != null and companyadress != ''">company_adress,</if>
+			<if test="companyemail != null and companyemail != ''">company_email,</if>
+			<if test="comcustcodes != null and comcustcodes != ''">com_custcodes,</if>
+			<if test="spareone != null and spareone != ''">spare_one,</if>
+			<if test="sparetwo != null and sparetwo != ''">spare_two</if>
+	 	<![CDATA[
+           ) values ( 
+         ]]>
+			<if test="id != null and id != ''">#{id,jdbcType=VARCHAR},</if>
+			<if test="companyunique != null and companyunique != ''">#{companyunique,jdbcType=VARCHAR},</if>
+			<if test="custcode != null and custcode != ''">#{custcode,jdbcType=VARCHAR},</if>
+			<if test="custname != null and custname != ''">#{custname,jdbcType=VARCHAR},</if>
+			<if test="createtime != null">#{createtime,jdbcType=TIMESTAMP},</if>
+			<if test="updatetime != null">#{updatetime,jdbcType=TIMESTAMP},</if>
+			<if test="companymobile != null and companymobile != ''">#{companymobile,jdbcType=VARCHAR},</if>
+			<if test="companyadress != null and companyadress != ''">#{companyadress,jdbcType=VARCHAR},</if>
+			<if test="companyemail != null and companyemail != ''">#{companyemail,jdbcType=VARCHAR},</if>
+			<if test="comcustcodes != null and comcustcodes != ''">#{comcustcodes,jdbcType=VARCHAR},</if>
+			<if test="spareone != null and spareone != ''">#{spareone,jdbcType=VARCHAR},</if>
+			<if test="sparetwo != null and sparetwo != ''">#{sparetwo,jdbcType=VARCHAR}</if>
+		 <![CDATA[
+		   )
+		 ]]>
+	</insert>
+	
+	<!-- 更新WdCompanyInfo对象 -->
+	<update id="updateWdCompanyByUnique" parameterType="com.xzhang.model.WdCompanyInfo">
+		<![CDATA[
+			update wd_companyinfo
+		]]>
+		<set>
+			<if test="custcode != null and custcode != ''">
+				cust_code = #{custcode,jdbcType=VARCHAR},
+			</if>
+			<if test="custname != null and custname != ''">
+				cust_name = #{custname,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				create_time = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+				update_time = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="companymobile != null and companymobile != ''">
+				company_mobile = #{companymobile,jdbcType=VARCHAR},
+			</if>
+			<if test="companyadress != null and companyadress != ''">
+				company_adress = #{companyadress,jdbcType=VARCHAR},
+			</if>
+			<if test="companyemail != null and companyemail != ''">
+				company_email = #{companyemail,jdbcType=VARCHAR},
+			</if>
+			<if test="comcustcodes != null and comcustcodes != ''">
+				com_custcodes = #{comcustcodes,jdbcType=VARCHAR},
+			</if>
+			<if test="spareone != null and spareone != ''">
+				spare_one = #{spareone,jdbcType=VARCHAR},
+			</if>
+			<if test="sparetwo != null and sparetwo != ''">
+				spare_two = #{sparetwo,jdbcType=VARCHAR}
+			</if>
+		</set>
+		<![CDATA[
+			where company_unique = #{companyunique,jdbcType=VARCHAR}
+		]]>
+	</update>
+	
+	
+	
+</mapper>

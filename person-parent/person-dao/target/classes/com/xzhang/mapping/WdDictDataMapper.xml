@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzhang.dao.WdDictDataMapper">
+	<!-- 基本返回值：实体类对象 -->
+	<resultMap id="BaseResultMap" type="com.xzhang.model.WdDictData">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="dict_cd" property="dictcd" jdbcType="VARCHAR" />
+		<result column="dict_name" property="dictname" jdbcType="VARCHAR" />
+		<result column="dict_order_no" property="dictorderno" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="dict_type_code" property="dicttypecode" jdbcType="VARCHAR" />
+		<result column="create_time" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updatetime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 基本sql字段代码块 -->
+	<sql id="Base_Column_List">
+		<![CDATA[
+		id, dict_cd, dict_name, dict_order_no, remark, dict_type_code, 
+		create_time, update_time
+		]]>
+	</sql>
+	
+	<!-- 基础查询语句   -->
+    <sql id="Base_Query">
+        <![CDATA[
+        SELECT wddd.id, wddd.dict_cd, wddd.dict_name, wddd.dict_order_no, wddd.remark, 
+        wddd.dict_type_code, wddd.create_time, wddd.update_time
+        FROM wd_dictdata wddd
+        ]]>
+    </sql>
+	
+	<!-- 根据id找到WdDictData对象 -->
+	<select id="getWdDictDataById" parameterType="java.lang.String" resultMap="BaseResultMap">
+		<include refid="Base_Query" />
+		<![CDATA[where wddd.id = #{id,jdbcType=VARCHAR}]]>
+	</select>
+	
+	<!-- 根据id删除WdDictData对象 -->
+	<delete id="delWdDictDataById" parameterType="java.lang.String">
+		<![CDATA[
+		delete from wd_dictdata wddd 
+		where wddd.id = #{id,jdbcType=VARCHAR}
+		]]>
+	</delete>
+	
+	<!-- 新增一条WdDictData对象信息 -->
+	<insert id="insertWdDictData" parameterType="com.xzhang.model.WdDictData">
+		<![CDATA[
+		INSERT INTO wd_dictdata 
+		(
+		]]>
+			<if test="id != null and id != ''">id,</if>
+			<if test="dictcd != null and dictcd != ''">dict_cd,</if>
+			<if test="dictname != null and dictname != ''">dict_name,</if>
+			<if test="dictorderno != null and dictorderno != ''">dict_order_no,</if>
+			<if test="remark != null and remark != ''">remark,</if>
+			<if test="dicttypecode != null and dicttypecode != ''">dict_type_code,</if>
+			<if test="createtime != null">create_time,</if>
+			<if test="updatetime != null">update_time</if>
+	 	<![CDATA[
+           ) values ( 
+         ]]>
+			<if test="id != null and id != ''">#{id,jdbcType=VARCHAR},</if>
+			<if test="dictcd != null and dictcd != ''">#{dictcd,jdbcType=VARCHAR},</if>
+			<if test="dictname != null and dictname != ''">#{dictname,jdbcType=VARCHAR},</if>
+			<if test="dictorderno != null and dictorderno != ''">#{dictorderno,jdbcType=VARCHAR},</if>
+			<if test="remark != null and remark != ''">#{remark,jdbcType=VARCHAR},</if>
+			<if test="dicttypecode != null and dicttypecode != ''">#{dicttypecode,jdbcType=VARCHAR},</if>
+			<if test="createtime != null">#{createtime,jdbcType=TIMESTAMP},</if>
+			<if test="updatetime != null">#{updatetime,jdbcType=TIMESTAMP}</if>
+		 <![CDATA[
+		   )
+		 ]]>
+	</insert>
+	
+	<!-- 根据id更新WdDictData对象 -->
+	<update id="updateWdBuyerByMobile" parameterType="com.xzhang.model.WdDictData">
+		<![CDATA[
+			update wd_dictdata
+		]]>
+		<set>
+			<if test="dictcd != null and dictcd != ''">
+				dict_cd = #{dictcd,jdbcType=VARCHAR},
+			</if>
+			<if test="dictname != null and dictname != ''">
+				dict_name = #{dictname,jdbcType=VARCHAR},
+			</if>
+			<if test="dictorderno != null and dictorderno != ''">
+				dict_order_no = #{dictorderno,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null and remark != ''">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+				update_time = #{updatetime,jdbcType=TIMESTAMP}
+			</if>
+		</set>
+		<![CDATA[
+			where id = #{id,jdbcType=VARCHAR}
+		]]>
+	</update>
+	
+	<!-- 根据数据字典主键id,去找到WdDictData集合 -->
+	<select id="getWdDictDatasByDicttypecode" parameterType="java.lang.String" resultMap="BaseResultMap">
+		<![CDATA[SELECT * FROM wd_dictdata wddd WHERE 1=1]]>
+		<if test="dicttypecode != null and dicttypecode != ''">
+			<![CDATA[and wddd.dict_type_code = #{dicttypecode,jdbcType=VARCHAR}]]>
+		</if>
+	</select>
+	
+	
+</mapper>

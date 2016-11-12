@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzhang.dao.WdImgFileMapper">
+	<!-- 基本返回值：实体类对象 -->
+	<resultMap id="BaseResultMap" type="com.xzhang.model.WdImgFile">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="img_path" property="imgpath" jdbcType="VARCHAR" />
+		<result column="img_type" property="imgtype" jdbcType="VARCHAR" />
+		<result column="create_time" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updatetime" jdbcType="TIMESTAMP" />
+		<result column="cust_code" property="custcode" jdbcType="VARCHAR" />
+		<result column="cust_name" property="custname" jdbcType="VARCHAR" />
+		<result column="desc_ribe" property="describe" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 基本sql字段代码块 -->
+	<sql id="Base_Column_List">
+		<![CDATA[
+		id, img_path, img_type, create_time, update_time, cust_code, cust_name, desc_ribe
+		]]>
+	</sql>
+	
+	<!-- 基础查询语句   -->
+    <sql id="Base_Query">
+        <![CDATA[
+        SELECT wdif.id, wdif.img_path, wdif.img_type, wdif.create_time, wdif.update_time, 
+        wdif.cust_code, wdif.cust_name, wdif.desc_ribe
+        FROM wd_imgfile wdif
+        ]]>
+    </sql>
+	
+	<!-- 根据id找到WdImgFile对象 -->
+	<select id="getWdImgFileById" parameterType="java.lang.String" resultMap="BaseResultMap">
+		<include refid="Base_Query" />
+		<![CDATA[where wdif.id = #{id,jdbcType=VARCHAR}]]>
+	</select>
+	
+	<!-- 新增一条WdImgFile对象信息 -->
+	<insert id="insertWdImgFile" parameterType="com.xzhang.model.WdImgFile">
+		<![CDATA[
+		INSERT INTO wd_imgfile 
+		(
+		]]>
+			<if test="id != null and id != ''">id,</if>
+			<if test="imgpath != null and imgpath != ''">img_path,</if>
+			<if test="imgtype != null and imgtype != ''">img_type,</if>
+			<if test="createtime != null">create_time,</if>
+			<if test="updatetime != null">update_time,</if>
+			<if test="custcode != null and custcode != ''">cust_code,</if>
+			<if test="custname != null and custname != ''">cust_name,</if>
+			<if test="describe != null and describe != ''">desc_ribe</if>
+	 	<![CDATA[
+           ) values ( 
+         ]]>
+			<if test="id != null and id != ''">#{id,jdbcType=VARCHAR},</if>
+			<if test="imgpath != null and imgpath != ''">#{firstname,jdbcType=VARCHAR},</if>
+			<if test="imgtype != null and imgtype != ''">#{mobile,jdbcType=VARCHAR},</if>
+			<if test="createtime != null">#{createtime,jdbcType=TIMESTAMP},</if>
+			<if test="updatetime != null">#{updatetime,jdbcType=TIMESTAMP},</if>
+			<if test="custcode != null and custcode != ''">#{custcode,jdbcType=VARCHAR},</if>
+			<if test="custname != null and custname != ''">#{custname,jdbcType=VARCHAR},</if>
+			<if test="describe != null and describe != ''">#{describe,jdbcType=VARCHAR}</if>
+		 <![CDATA[
+		   )
+		 ]]>
+	</insert>
+	
+	<!-- 更新WdImgFile对象 -->
+	<update id="updateWdImgFileById" parameterType="com.xzhang.model.WdImgFile">
+		<![CDATA[
+			update wd_imgfile
+		]]>
+		<set>
+			<if test="imgpath != null and imgpath != ''">
+				img_path = #{imgpath,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+				update_time = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="describe != null and describe != '' ">
+				desc_ribe = #{describe,jdbcType=VARCHAR}
+			</if>
+		</set>
+		<![CDATA[
+			where id = #{id,jdbcType=VARCHAR}
+		]]>
+	</update>
+	
+	
+</mapper>

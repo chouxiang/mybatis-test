@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzhang.dao.WdLogsInfoMapper">
+	<!-- 基本返回值：实体类对象 -->
+	<resultMap id="BaseResultMap" type="com.xzhang.model.WdLogsInfo">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="cust_code" property="custcode" jdbcType="VARCHAR" />
+		<result column="cust_name" property="custname" jdbcType="VARCHAR" />
+		<result column="create_time" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="optype" property="optype" jdbcType="VARCHAR" />
+		<result column="contect" property="contect" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 基本sql字段代码块 -->
+	<sql id="Base_Column_List">
+		<![CDATA[
+		id, cust_code, cust_name, create_time, optype, contect
+		]]>
+	</sql>
+	
+	<!-- 基础查询语句   -->
+    <sql id="Base_Query">
+        <![CDATA[
+        SELECT wdls.id, wdls.cust_code, wdls.cust_name, wdls.create_time, 
+        wdls.optype, wdls.contect
+        FROM wd_logsinfo wdls
+        ]]>
+    </sql>
+	
+	<!-- 根据id找到WdLogsInfo对象 -->
+	<select id="getWdLogsInfoById" parameterType="java.lang.String" resultMap="BaseResultMap">
+		<include refid="Base_Query" />
+		<![CDATA[where wdls.id = #{id,jdbcType=VARCHAR}]]>
+	</select>
+	
+	<!-- 根据cust_name、optype找到WdLogsInfo对象集合 -->
+	<select id="getWdLogsInfosByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<![CDATA[SELECT * FROM wd_logsinfo wdls WHERE 1=1]]>
+		<if test="custname != null and custname != ''">
+			<![CDATA[and wdls.cust_name like CONCAT('%',#{custname,jdbcType=VARCHAR},'%')]]>
+		</if>
+		<if test="optype != null and optype != ''">
+			<![CDATA[and wdls.optype = #{optype,jdbcType=VARCHAR}]]>
+		</if>
+	</select>
+	
+	<!-- 根据id删除WdLogsInfo对象 -->
+	<delete id="delWdLogsInfoById" parameterType="java.lang.String">
+		<![CDATA[
+		delete from wd_logsinfo wdls 
+		where wdls.id = #{id,jdbcType=VARCHAR}
+		]]>
+	</delete>
+	
+	<!-- 新增一条WdLogsInfo对象信息 -->
+	<insert id="insertWdLogsInfo" parameterType="com.xzhang.model.WdLogsInfo">
+		<![CDATA[
+		INSERT INTO wd_logsinfo 
+		(
+		]]>
+			<if test="id != null and id != ''">id,</if>
+			<if test="custcode != null and custcode != ''">cust_code,</if>
+			<if test="custname != null and custname != ''">cust_name,</if>
+			<if test="createtime != null">create_time,</if>
+			<if test="optype != null and optype != ''">optype,</if>
+			<if test="contect != null and contect != ''">contect</if>
+	 	<![CDATA[
+           ) values ( 
+         ]]>
+			<if test="id != null and id != ''">#{id,jdbcType=VARCHAR},</if>
+			<if test="custcode != null and custcode != ''">#{custcode,jdbcType=VARCHAR},</if>
+			<if test="custname != null and custname != ''">#{custname,jdbcType=VARCHAR},</if>
+			<if test="createtime != null">#{createtime,jdbcType=TIMESTAMP},</if>
+			<if test="optype != null and optype != ''">#{optype,jdbcType=VARCHAR},</if>
+			<if test="contect != null and contect != ''">#{contect,jdbcType=VARCHAR}</if>
+		 <![CDATA[
+		   )
+		 ]]>
+	</insert>
+	
+	<!-- <select id="getInstmtQuartzList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<![CDATA[SELECT * FROM t_instmt_quartz quartz WHERE 1=1]]>
+		<if test="enablestatus != null and enablestatus != ''">
+			<![CDATA[and quartz.enable_status = #{enablestatus,jdbcType=VARCHAR}]]>
+		</if>
+		<if test="triggerstatus != null and triggerstatus != ''">
+			<![CDATA[and quartz.trigger_status = #{triggerstatus,jdbcType=VARCHAR}]]>
+		</if>
+	</select> -->
+	
+	
+</mapper>

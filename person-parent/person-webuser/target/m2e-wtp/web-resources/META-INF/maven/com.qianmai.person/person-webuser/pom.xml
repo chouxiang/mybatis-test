@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.qianmai.person</groupId>
+    <artifactId>person-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>person-webuser</artifactId>
+  <packaging>war</packaging>
+  <name>person-webuser</name>
+  <description>person-webuser</description>
+  <url>http://maven.apache.org</url>
+  
+  <dependencies>
+  	<dependency>
+		<groupId>com.qianmai.person</groupId>
+		<artifactId>person-service</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>com.qianmai.person</groupId>
+		<artifactId>person-dao</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+    <dependency>
+		<groupId>com.qianmai.person</groupId>
+		<artifactId>person-domain</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>com.qianmai.person</groupId>
+		<artifactId>person-commonutil</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	
+  </dependencies>
+  
+</project>
